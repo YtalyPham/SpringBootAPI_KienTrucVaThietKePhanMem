@@ -4,8 +4,11 @@ import com.example.StudentLab.entity.Employee;
 import com.example.StudentLab.service.EmployeeService;
 import com.example.StudentLab.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,13 +27,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public Employee saveEmployee(@RequestBody Employee employee){
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee){
+        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
     @PutMapping("/employees/{id}")
-    public Employee updateEmployeeById(@PathVariable("id") Long employeeId,@RequestBody Employee employee){
-        return  employeeService.updateEmployeeById(employeeId,employee);
+    public ResponseEntity<Employee> updateEmployeeById(@PathVariable("id") Long employeeId,@Valid @RequestBody Employee employee){
+        return new ResponseEntity<Employee>(employeeService.updateEmployeeById(employeeId,employee), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/employees/{id}")
