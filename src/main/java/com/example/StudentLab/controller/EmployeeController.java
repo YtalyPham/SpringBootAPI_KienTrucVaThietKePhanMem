@@ -1,6 +1,7 @@
 package com.example.StudentLab.controller;
 
 import com.example.StudentLab.entity.Employee;
+import com.example.StudentLab.error.EmployeeNotFoundException;
 import com.example.StudentLab.service.EmployeeService;
 import com.example.StudentLab.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployeeById(@PathVariable("id") Long employeeId){
+    public Employee getEmployeeById(@PathVariable("id") Long employeeId) throws EmployeeNotFoundException {
         return employeeService.getEmployeeById(employeeId);
     }
 

@@ -1,6 +1,7 @@
 package com.example.StudentLab.service;
 
 import com.example.StudentLab.entity.Employee;
+import com.example.StudentLab.error.EmployeeNotFoundException;
 import com.example.StudentLab.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -28,8 +30,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).get();
+    public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
+        Optional<Employee> employee= employeeRepository.findById(id);
+        if(!employee.isPresent()){
+            throw new EmployeeNotFoundException("Employee Not Found !");
+        }
+        return employee.get();
     }
 
     @Override
